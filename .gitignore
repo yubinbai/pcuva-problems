@@ -1,0 +1,5 @@
+*.pyc
+*.py3
+MANIFEST
+dist
+html

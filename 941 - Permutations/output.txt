@@ -1,0 +1,2 @@
+Case #1: bca
+Case #2: edcba

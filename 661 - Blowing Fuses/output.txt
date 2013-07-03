@@ -1,0 +1,2 @@
+Case #1: Blown
+Case #2: Secure, max is 9

@@ -1,0 +1,6 @@
+Case #1: Square
+Case #2: Rectangle
+Case #3: Rhombus
+Case #4: Parallelogram
+Case #5: Trapezium
+Case #6: Ordinary Quadrilateral

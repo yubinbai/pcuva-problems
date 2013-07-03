@@ -1,0 +1,5 @@
+C C D F E G A A F G B
+A B C D E F G C#
+C C D F E G A A F G
+C C C C C
+END

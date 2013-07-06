@@ -1,5 +1,5 @@
 '''
-Created on Jul 3, 2013
+Created on Jul 5, 2013
 
 @author: Yubin Bai
 
@@ -8,39 +8,34 @@ All rights reserved.
 
 import time
 from multiprocessing.pool import Pool
+from bintrees import RBTree
 parallelSolve = False
 INF = 1 << 31
 
 
 def solve(par):
-    N, perms = par
-    original = list(range(1, N + 1))
-    results = []
-    for row in perms:
-        flag = True
-        incoming = list(original)
-        incoming.reverse()
-        curr = []
-        for e in row:
-            if not flag:
-                break
-            if curr and curr[-1] == e:
-                curr.pop()
-                continue
-            while True:
-                try:
-                    curr.append(incoming.pop())
-                except:
-                    flag = False
-                    break
-                if curr[-1] == e:
-                    curr.pop()
-                    break
-        if flag:
-            results.append('Yes')
-        else:
-            results.append('No')
-    return '\n' + '\n'.join(results)
+    n, days = par
+    urn = RBTree()
+    cost = 0
+    for d in days:
+        for bill in d:
+            try:
+                urn[bill] += 1
+            except:
+                urn[bill] = 1
+        if urn.count >= 2:
+            m1, v1 = urn.max_item()
+            m2, v2 = urn.min_item()
+            if v1 == 1:
+                urn.discard(m1)
+            else:
+                urn[m1] = v1 - 1
+            if v2 == 1:
+                urn.discard(m2)
+            else:
+                urn[m2] = v2 - 1
+            cost += m1 - m2
+    return cost
 
 
 class Solver:
@@ -49,17 +44,14 @@ class Solver:
         self.numOfTests = 0
         self.input = []
         while True:
-            N = int(self.fIn.readline())
-            if N == 0:
+            n = int(self.fIn.readline())
+            if n == 0:
                 break
             self.numOfTests += 1
-            perms = []
-            while True:
-                row = map(int, self.fIn.readline().split())
-                if row[0] == 0:
-                    break
-                perms.append(list(row))
-            self.input.append((N, perms))
+            days = []
+            for i in range(n):
+                days.append(map(int, self.fIn.readline().split())[1:])
+            self.input.append((n, days))
 
     def __init__(self):
         self.fIn = open('input.txt')

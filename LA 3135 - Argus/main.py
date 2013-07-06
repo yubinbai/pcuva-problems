@@ -1,5 +1,5 @@
 '''
-Created on Jul 3, 2013
+Created on Jul 5, 2013
 
 @author: Yubin Bai
 
@@ -8,58 +8,40 @@ All rights reserved.
 
 import time
 from multiprocessing.pool import Pool
+from heapq import *
 parallelSolve = False
 INF = 1 << 31
 
 
 def solve(par):
-    N, perms = par
-    original = list(range(1, N + 1))
+    queries, k = par
+    heap = []
+    for q in queries:
+        heappush(heap, [q[1], q[0], q[1]])
+
     results = []
-    for row in perms:
-        flag = True
-        incoming = list(original)
-        incoming.reverse()
-        curr = []
-        for e in row:
-            if not flag:
-                break
-            if curr and curr[-1] == e:
-                curr.pop()
-                continue
-            while True:
-                try:
-                    curr.append(incoming.pop())
-                except:
-                    flag = False
-                    break
-                if curr[-1] == e:
-                    curr.pop()
-                    break
-        if flag:
-            results.append('Yes')
-        else:
-            results.append('No')
-    return '\n' + '\n'.join(results)
+    for i in range(k):
+        q = heappop(heap)
+        results.append(q[1])
+        q[0] += q[2]
+        heappush(heap, q)
+    return '\n'.join(str(e) for e in results)
 
 
 class Solver:
 
     def getInput(self):
-        self.numOfTests = 0
+        self.numOfTests = 1
         self.input = []
+        queries = []
         while True:
-            N = int(self.fIn.readline())
-            if N == 0:
+            line = self.fIn.readline().strip()
+            if line == '#':
                 break
-            self.numOfTests += 1
-            perms = []
-            while True:
-                row = map(int, self.fIn.readline().split())
-                if row[0] == 0:
-                    break
-                perms.append(list(row))
-            self.input.append((N, perms))
+            row = map(int, line.split()[1:])
+            queries.append(row)
+        k = int(self.fIn.readline())
+        self.input.append((queries, k))
 
     def __init__(self):
         self.fIn = open('input.txt')

@@ -1,5 +1,5 @@
 '''
-Created on Jul 3, 2013
+Created on Jul 5, 2013
 
 @author: Yubin Bai
 
@@ -8,39 +8,40 @@ All rights reserved.
 
 import time
 from multiprocessing.pool import Pool
+from heapq import *
 parallelSolve = False
 INF = 1 << 31
 
 
 def solve(par):
-    N, perms = par
-    original = list(range(1, N + 1))
-    results = []
-    for row in perms:
-        flag = True
-        incoming = list(original)
-        incoming.reverse()
-        curr = []
-        for e in row:
-            if not flag:
-                break
-            if curr and curr[-1] == e:
-                curr.pop()
-                continue
-            while True:
-                try:
-                    curr.append(incoming.pop())
-                except:
-                    flag = False
-                    break
-                if curr[-1] == e:
-                    curr.pop()
-                    break
-        if flag:
-            results.append('Yes')
-        else:
-            results.append('No')
-    return '\n' + '\n'.join(results)
+    M, O, D, graph = par
+    vertices = set()
+    for e in graph:
+        vertices.add(e[0])
+        vertices.add(e[1])
+    vertices.add(O)
+    vertices.add(D)
+
+    def relax(u, v, w):
+        '''
+        node u, node v, weight w
+        '''
+        if dist[v][0] > dist[u][0] + len(w) and w[0] != dist[u][1]:
+            dist[v] = (dist[u][0] + len(w)), w[0]
+
+    # bellman-ford 
+    dist = {}
+    for v in vertices:
+        dist[v] = INF, ' '
+    dist[O] = 0, ' '
+    for v in vertices:
+        for e in graph:
+            relax(e[0], e[1], e[2])
+            relax(e[1], e[0], e[2])
+    if dist[D][0] >= INF:
+        return 'impossivel'
+    else:
+        return dist[D][0]
 
 
 class Solver:
@@ -49,17 +50,15 @@ class Solver:
         self.numOfTests = 0
         self.input = []
         while True:
-            N = int(self.fIn.readline())
-            if N == 0:
+            M = int(self.fIn.readline())
+            if M == 0:
                 break
             self.numOfTests += 1
-            perms = []
-            while True:
-                row = map(int, self.fIn.readline().split())
-                if row[0] == 0:
-                    break
-                perms.append(list(row))
-            self.input.append((N, perms))
+            O, D = self.fIn.readline().split()
+            graph = []
+            for i in range(M):
+                graph.append(self.fIn.readline().split())
+            self.input.append((M, O, D, graph))
 
     def __init__(self):
         self.fIn = open('input.txt')

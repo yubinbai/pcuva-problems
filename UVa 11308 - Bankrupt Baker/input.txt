@@ -1,0 +1,37 @@
+2
+My Favourite Cheesecake
+8 3 100
+sugar 4
+water 0
+lemonjuice 3
+creamcheese 20
+vanilla 5
+egg 5
+cream 10
+strawberry 5
+Strawberry Whipped Cream
+2
+cream 5
+strawberry 3
+Scrumptious Caramel Topping
+3
+sugar 6
+water 3
+lemonjuice 1
+Secret Cheesecake Base
+5
+creamcheese 3
+sugar 5
+vanilla 1
+egg 6
+cream 1
+Million Dollar Cakes
+3 1 999999
+costlyflour 500
+gold 4500
+diamond 5000
+Display Cake - Do Not Eat!
+3
+costlyflour 100
+gold 100
+diamond 100

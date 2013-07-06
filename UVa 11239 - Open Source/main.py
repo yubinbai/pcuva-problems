@@ -8,39 +8,32 @@ All rights reserved.
 
 import time
 from multiprocessing.pool import Pool
+from collections import defaultdict
+from itertools import combinations
 parallelSolve = False
 INF = 1 << 31
 
 
 def solve(par):
-    N, perms = par
-    original = list(range(1, N + 1))
+    projects = par
+    purge = set()
+    N = len(projects)
+    for p1,p2 in combinations(projects, 2):
+        if p1 != p2:
+            intersection = projects[p1] & projects[p2]
+            projects[p1] -= intersection
+            projects[p2] -= intersection
+
     results = []
-    for row in perms:
-        flag = True
-        incoming = list(original)
-        incoming.reverse()
-        curr = []
-        for e in row:
-            if not flag:
-                break
-            if curr and curr[-1] == e:
-                curr.pop()
-                continue
-            while True:
-                try:
-                    curr.append(incoming.pop())
-                except:
-                    flag = False
-                    break
-                if curr[-1] == e:
-                    curr.pop()
-                    break
-        if flag:
-            results.append('Yes')
-        else:
-            results.append('No')
-    return '\n' + '\n'.join(results)
+    for p in projects:
+        results.append([-1 * len(projects[p]), p])
+    results.sort()
+
+    s = []
+    for row in results:
+        if row[0] != 0:
+            s.append('%s %d' % (row[1], -1 * row[0]))
+    return '\n'.join(s)
 
 
 class Solver:
@@ -48,18 +41,21 @@ class Solver:
     def getInput(self):
         self.numOfTests = 0
         self.input = []
+        currProject = ''
+        projects = defaultdict(set)
         while True:
-            N = int(self.fIn.readline())
-            if N == 0:
+            line = self.fIn.readline().strip()
+            if line[0] == '1':
+                self.numOfTests += 1
+                self.input.append((projects))
+                projects = defaultdict(set)
+                continue
+            if line[0] == '0':
                 break
-            self.numOfTests += 1
-            perms = []
-            while True:
-                row = map(int, self.fIn.readline().split())
-                if row[0] == 0:
-                    break
-                perms.append(list(row))
-            self.input.append((N, perms))
+            if ord(line[0]) in range(ord('A'), ord('Z') + 1):
+                currProject = line
+            if ord(line[0]) in range(ord('a'), ord('z') + 1):
+                projects[currProject].add(line)
 
     def __init__(self):
         self.fIn = open('input.txt')

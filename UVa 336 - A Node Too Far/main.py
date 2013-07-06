@@ -7,40 +7,37 @@ All rights reserved.
 '''
 
 import time
+import collections
 from multiprocessing.pool import Pool
 parallelSolve = False
 INF = 1 << 31
 
 
 def solve(par):
-    N, perms = par
-    original = list(range(1, N + 1))
-    results = []
-    for row in perms:
-        flag = True
-        incoming = list(original)
-        incoming.reverse()
-        curr = []
-        for e in row:
-            if not flag:
-                break
-            if curr and curr[-1] == e:
-                curr.pop()
-                continue
-            while True:
-                try:
-                    curr.append(incoming.pop())
-                except:
-                    flag = False
-                    break
-                if curr[-1] == e:
-                    curr.pop()
-                    break
-        if flag:
-            results.append('Yes')
-        else:
-            results.append('No')
-    return '\n' + '\n'.join(results)
+    def bfs(start):
+        for v in graph:
+            dist[v] = INF
+            for v2 in graph[v]:
+                dist[v2] = INF
+        dist[start] = 0
+        q = collections.deque()
+        q.append(start)
+        while q:
+            curr = q.popleft()
+            for v in graph[curr]:
+                if dist[v] == INF:
+                    dist[v] = dist[curr] + 1
+                    q.append(v)
+
+    NC, graph, dest = par
+    dist = {}
+    result = []
+    for d in dest:
+        bfs(d[0])
+        counter = sum([dist[v] > d[1] for v in dist])
+        result.append('%d nodes not reachable from node %d with TTL = %d.' %
+                      (counter, d[0], d[1]))
+    return '\n'.join(result)
 
 
 class Solver:
@@ -49,17 +46,27 @@ class Solver:
         self.numOfTests = 0
         self.input = []
         while True:
-            N = int(self.fIn.readline())
-            if N == 0:
+            NC = int(self.fIn.readline())
+            if NC == 0:
                 break
             self.numOfTests += 1
-            perms = []
+            graph = collections.defaultdict(list)
+            row = []
             while True:
-                row = map(int, self.fIn.readline().split())
-                if row[0] == 0:
+                line = self.fIn.readline().strip()
+                if line == '':
                     break
-                perms.append(list(row))
-            self.input.append((N, perms))
+                row += map(int, line.split())
+            for i in range(NC):
+                graph[row[0]].append(row[1])
+                graph[row[1]].append(row[0])
+                del row[:2]
+            dest = []
+            while row[0] != 0:
+                dest.append([row[0], row[1]])
+                del row[:2]
+
+            self.input.append((NC, graph, dest))
 
     def __init__(self):
         self.fIn = open('input.txt')

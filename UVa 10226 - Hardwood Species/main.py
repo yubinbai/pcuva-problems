@@ -8,58 +8,37 @@ All rights reserved.
 
 import time
 from multiprocessing.pool import Pool
+from collections import Counter
 parallelSolve = False
 INF = 1 << 31
 
 
 def solve(par):
-    N, perms = par
-    original = list(range(1, N + 1))
-    results = []
-    for row in perms:
-        flag = True
-        incoming = list(original)
-        incoming.reverse()
-        curr = []
-        for e in row:
-            if not flag:
-                break
-            if curr and curr[-1] == e:
-                curr.pop()
-                continue
-            while True:
-                try:
-                    curr.append(incoming.pop())
-                except:
-                    flag = False
-                    break
-                if curr[-1] == e:
-                    curr.pop()
-                    break
-        if flag:
-            results.append('Yes')
-        else:
-            results.append('No')
-    return '\n' + '\n'.join(results)
+    trees = par
+    total = len(trees)
+    c = Counter(trees)
+    names = list(c)
+    names.sort()
+    result = []
+    for n in names:
+        result.append('%s %.4f' % (n, 100.0 * c[n] / total))
+    return '\n'.join(result)
 
 
 class Solver:
 
     def getInput(self):
-        self.numOfTests = 0
+        self.numOfTests = int(self.fIn.readline())
         self.input = []
-        while True:
-            N = int(self.fIn.readline())
-            if N == 0:
-                break
-            self.numOfTests += 1
-            perms = []
+        for i in range(self.numOfTests):
+            self.fIn.readline()
+            trees = []
             while True:
-                row = map(int, self.fIn.readline().split())
-                if row[0] == 0:
+                line = self.fIn.readline().strip()
+                if line == '':
                     break
-                perms.append(list(row))
-            self.input.append((N, perms))
+                trees.append(line)
+            self.input.append((trees))
 
     def __init__(self):
         self.fIn = open('input.txt')

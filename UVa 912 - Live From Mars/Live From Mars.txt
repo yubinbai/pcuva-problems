@@ -1,0 +1,58 @@
+Live From Mars
+
+At the 26th of august 2003, Mars was never so close to the Earth since 60.000 years. Taking advantage of this fact, the most powerful shortsighted telescope, Hubble, made an incredible discovery: there is life in Mars, mutant life indeed!
+
+Professor B. Harper, who leads the team that made this discovery, found traces of a unicellular form of life. This kind of cell possess a new kind of DNA: a mutant DNA that is able to specialize its inner structure when exposed to radiations. Remarkably, B. Harper showed how to produce any desired mutation by an appropriate radiation.
+
+L. Kravitz, B. Harper's student, focuses its research work on a classification of these cells based on their capacity to mutate.
+
+Your work is to provide him a computer program that is able to find if two mutant DNA sequences of the same length can mutate to a common DNA sequence.
+
+Problem
+
+A mutant DNA sequence is composed by the usual DNA elements, say, for the sake of simplicity, A,B,C, and D and by mutant elements 1, 2, 3,4,5, and so on ...
+
+Only the mutant elements can mutate, and they mutate only once to A, B, C or D. Then, a mutation is a process that takes a mutant DNA sequence and transforms some (eventually all) mutant elements to normal elements.
+
+For instance, let be DNA1 the following mutant DNA sequence A1CD1A2D3B2C5 and MUT the following mutation [(1,A),(2,B),(3,C),(4,A)] (which means mutate all occurrences of 1 into A, 2 into B, 3 into C and 4 into A).MUT transforms DNA1 into DNA2: AACDAABDCBBC5. In this case, we say that DNA2 is a descendant of DNA1.
+
+Two mutant DNA sequences of length n, x1,x2,... ,xn and y1,y2,... ,yn are equivalent under mutation if, for all i such that 1£ i £ n, xi and yi are both normal DNA elements and are equal, or xi and yi are both mutant DNA elements (and it is not required in this case that xi and yi are equal) 
+
+Let DNA1 and DNA2 be two mutant DNA sequences of the same length. The shortest common mutation of DNA1 and DNA2, say MUT, is the shortest mutation that transforms DNA1 and DNA2 into descendants which are equivalent under mutation. MUT is the shortest in the sense that it implies the transformation of the smallest number of mutant elements. Note that MUT may not exist.
+
+So, your work is to provide a program that reads two mutant DNA sequences and replies
+
+NO, if there is no descendents of these two sequences that are equivalent by mutation. In other words, if there is no common mutations. Otherwise,
+YES and a print of the shortest common mutation, if there exists such a mutation.
+
+Input
+
+The input will contain several test cases, each of them as described below. Consecutive test cases are separated by a single blank line.
+The input for the program is structured as follow:
+
+the first line of the input contains the length m (with m£ 200) of the considered DNA sequences
+the next m lines contain one mutant DNA element (A,B,C,D or a natural number). They code the first mutant DNA sequence.
+the last m lines contain one mutant DNA element (A,B,C,D or a natural number). They code the second mutant DNA sequence.
+
+Output
+
+For each test case, the output must follow the description below. The outputs of two consecutive cases will be separated by a blank line.
+The output for the program is structured as follow: in case of failure (no mutations were found) the program simply display NO. In the other case, a mutation involving n mutant elements was found and so:
+
+the first line is the string YES;
+the n following lines describe the shortest common mutation; each line has the form m d
+where m is a mutant element (a natural number) and d the name of the associated normal DNA element (A, B, C or D). Note that m and d are separated by a single space. The elements of the mutation are sorted by the first component (the mutant element). Thus, the mutation involving 1 will be displayed before 2.
+
+Sample Input
+
+7
+A 1 2 B 1 D 4 
+1 3 B 2 3 D 4
+Sample Output
+
+ YES
+1 A
+2 B
+3 A
+Sim�o Sousa, MIUP'2003
+(Portuguese National ACM Programming Contest)

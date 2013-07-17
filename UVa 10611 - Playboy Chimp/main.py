@@ -1,43 +1,48 @@
 '''
-Created on Jul 9, 2013
+Created on Jul 16, 2013
 @author: Yubin Bai
 '''
 import time
 from multiprocessing.pool import Pool
-from SegmentTree2D import SegmentTree2D
+from bisect import *
 parallelSolve = False
 INF = 1 << 31
 
 
+def find_lt(a, x):
+    'Find rightmost value less than x'
+    i = bisect_left(a, x)
+    if i:
+        return a[i - 1]
+    raise ValueError
+
+
+def find_gt(a, x):
+    'Find leftmost value greater than x'
+    i = bisect_right(a, x)
+    if i != len(a):
+        return a[i]
+    raise ValueError
+
+
 def solve(par):
-    N, Q, mat, queries = par
-    treeMax = SegmentTree2D()
-
-    def maxFunc(*args):
-        return max(args)
-    treeMax.buildTree(mat, maxFunc, INF)
-    treeMin = SegmentTree2D()
-
-    def minFunc(*args):
-        return min(args)
-    treeMin.buildTree(mat, minFunc, -1 * INF)
-    result = []
+    N, Q, array, queries = par
+    results = []
     for q in queries:
-        if q[0] == 'q':
-            for j in range(1, len(q)):
-                q[j] -= 1
-            result.append([treeMax.query(q[1], q[2], q[3], q[4]),
-                           treeMin.query(q[1], q[2], q[3], q[4])])
-        if q[0] == 'c':
-            for j in range(1, len(q) - 1):
-                q[j] -= 1
-            treeMax.update(q[1], q[2], q[3])
-            treeMin.update(q[1], q[2], q[3])
-
-    resultStr = []
-    for e in result:
-        resultStr.append(' '.join(str(i) for i in e))
-    return '\n'.join(resultStr)
+        row = []
+        i1, i2 = -1, -1
+        try:
+            i1 = find_lt(array, q)
+        except:
+            i1 = 'X'
+        row.append(str(i1))
+        try:
+            i2 = find_gt(array, q)
+        except:
+            i2 = 'X'
+        row.append(str(i2))
+        results.append(' '.join(row))
+    return '\n'.join(results)
 
 
 class Solver:
@@ -46,18 +51,10 @@ class Solver:
         self.numOfTests = 1
         self.input = []
         N = int(self.fIn.readline())
-        mat = []
-        for i in range(N):
-            row = map(int, self.fIn.readline().split())
-            mat.append(row)
+        array = map(int, self.fIn.readline().split())
         Q = int(self.fIn.readline())
-        queries = []
-        for i in range(Q):
-            row = self.fIn.readline().split()
-            for i in range(1, len(row)):
-                row[i] = int(row[i])
-            queries.append(row)
-        self.input.append((N, Q, mat, queries))
+        queries = map(int, self.fIn.readline().split())
+        self.input.append((N, Q, array, queries))
 
     def __init__(self):
         self.fIn = open('input.txt')

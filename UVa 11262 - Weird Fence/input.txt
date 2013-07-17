@@ -1,0 +1,17 @@
+3
+ 
+6 2
+-3 5 blue
+-3 3 red
+1 5 blue
+2 0 red
+4 6 blue
+4 -1 red
+ 
+6 4
+-3 5 blue
+-3 3 red
+1 5 blue
+2 0 red
+4 6 blue
+4 -1 red

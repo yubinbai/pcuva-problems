@@ -9,42 +9,34 @@ INF = 1 << 31
 
 
 def solve(par):
-    C, S, array = par
-    if S < 2 * C:
-        array += [0] * (2 * C - S)
-    array.sort()
-    result = []
-    low = 0
-    high = 2 * C - 1
-    while low < high:
-        if array[low] == 0:
-            result.append([array[high]])
-        else:
-            result.append([array[low], array[high]])
-        low += 1
-        high -= 1
-    avg = sum(array) * 1.0 / C
-    imba = sum(abs(sum(e) - avg) for e in result)
-    resultStr = []
-    for i, row in enumerate(result):
-        resultStr.append('%d: %s' % (i, ' '.join(str(e) for e in row)))
-    resultStr.append('IMBALANCE = %.6f' % imba)
-    return '\n'.join(resultStr)
+    N, T, M, cars = par
+    time = 0
+    trips = 0
+    capacity = N
+    for c in cars:
+        if capacity == 0:
+            time += T * 2
+            trips += 1
+            capacity = N
+        capacity -= 1
+        time = max(time, c)
+    if capacity != N:
+        trips += 1
+        time = max(cars[-1] + T, time)
+    return '%d %d' % (time, trips)
 
 
 class Solver:
 
     def getInput(self):
-        self.numOfTests = 0
+        self.numOfTests = int(self.fIn.readline())
         self.input = []
-        while True:
-            line = self.fIn.readline().strip()
-            if line == '':
-                break
-            self.numOfTests += 1
-            C, S = map(int, line.split())
-            array = map(int, self.fIn.readline().split())
-            self.input.append((C, S, array))
+        for itertest in range(self.numOfTests):
+            N, T, M = map(int, self.fIn.readline().split())
+            cars = []
+            for i in range(M):
+                cars.append(int(self.fIn.readline()))
+            self.input.append((N, T, M, cars))
 
     def __init__(self):
         self.fIn = open('input.txt')

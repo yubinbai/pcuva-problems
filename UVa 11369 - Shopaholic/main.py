@@ -1,5 +1,5 @@
 '''
-Created on Jul 17, 2013
+Created on Jul 18, 2013
 @author: Yubin Bai
 '''
 import time
@@ -9,42 +9,23 @@ INF = 1 << 31
 
 
 def solve(par):
-    C, S, array = par
-    if S < 2 * C:
-        array += [0] * (2 * C - S)
-    array.sort()
-    result = []
-    low = 0
-    high = 2 * C - 1
-    while low < high:
-        if array[low] == 0:
-            result.append([array[high]])
-        else:
-            result.append([array[low], array[high]])
-        low += 1
-        high -= 1
-    avg = sum(array) * 1.0 / C
-    imba = sum(abs(sum(e) - avg) for e in result)
-    resultStr = []
-    for i, row in enumerate(result):
-        resultStr.append('%d: %s' % (i, ' '.join(str(e) for e in row)))
-    resultStr.append('IMBALANCE = %.6f' % imba)
-    return '\n'.join(resultStr)
+    N, items = par
+    discount = 0
+    for i in range(N - 1, -1, -1):
+        if (i - N + 1) % 3 == 2:
+            discount += items[i]
+    return discount
 
 
 class Solver:
 
     def getInput(self):
-        self.numOfTests = 0
+        self.numOfTests = int(self.fIn.readline())
         self.input = []
-        while True:
-            line = self.fIn.readline().strip()
-            if line == '':
-                break
-            self.numOfTests += 1
-            C, S = map(int, line.split())
-            array = map(int, self.fIn.readline().split())
-            self.input.append((C, S, array))
+        for itertest in range(self.numOfTests):
+            N = int(self.fIn.readline())
+            items = map(int, self.fIn.readline().split())
+            self.input.append((N, items))
 
     def __init__(self):
         self.fIn = open('input.txt')

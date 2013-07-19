@@ -1,5 +1,5 @@
 '''
-Created on Jul 17, 2013
+Created on Jul 18, 2013
 @author: Yubin Bai
 '''
 import time
@@ -9,27 +9,25 @@ INF = 1 << 31
 
 
 def solve(par):
-    C, S, array = par
-    if S < 2 * C:
-        array += [0] * (2 * C - S)
-    array.sort()
-    result = []
-    low = 0
-    high = 2 * C - 1
-    while low < high:
-        if array[low] == 0:
-            result.append([array[high]])
+    N, M, heads, knights = par
+    heads.sort()
+    knights.sort()
+    i = j = 0
+    cost = 0
+    counter = 0
+    while i < N and j < M:
+        if heads[i] <= knights[j]:
+            if counter == N:
+                break
+            cost += knights[j]
+            i += 1
+            j += 1
+            counter += 1
         else:
-            result.append([array[low], array[high]])
-        low += 1
-        high -= 1
-    avg = sum(array) * 1.0 / C
-    imba = sum(abs(sum(e) - avg) for e in result)
-    resultStr = []
-    for i, row in enumerate(result):
-        resultStr.append('%d: %s' % (i, ' '.join(str(e) for e in row)))
-    resultStr.append('IMBALANCE = %.6f' % imba)
-    return '\n'.join(resultStr)
+            j += 1
+    if counter < N:
+        return 'Loowater is doomed!'
+    return cost
 
 
 class Solver:
@@ -38,13 +36,17 @@ class Solver:
         self.numOfTests = 0
         self.input = []
         while True:
-            line = self.fIn.readline().strip()
-            if line == '':
+            N, M = map(int, self.fIn.readline().split())
+            if N == 0:
                 break
             self.numOfTests += 1
-            C, S = map(int, line.split())
-            array = map(int, self.fIn.readline().split())
-            self.input.append((C, S, array))
+            heads = []
+            for i in range(N):
+                heads.append(int(self.fIn.readline()))
+            knights = []
+            for i in range(M):
+                knights.append(int(self.fIn.readline()))
+            self.input.append((N, M, heads, knights))
 
     def __init__(self):
         self.fIn = open('input.txt')

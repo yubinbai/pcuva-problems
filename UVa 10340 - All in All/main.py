@@ -9,27 +9,28 @@ INF = 1 << 31
 
 
 def solve(par):
-    C, S, array = par
-    if S < 2 * C:
-        array += [0] * (2 * C - S)
-    array.sort()
-    result = []
-    low = 0
-    high = 2 * C - 1
-    while low < high:
-        if array[low] == 0:
-            result.append([array[high]])
+    memo = {}
+
+    def lcs(i, j):
+        if (i, j) in memo:
+            return memo[(i, j)]
+        if i == -1 or j == -1:
+            return 0
+        if s[i] == t[j]:
+            v = 1 + lcs(i - 1, j - 1)
         else:
-            result.append([array[low], array[high]])
-        low += 1
-        high -= 1
-    avg = sum(array) * 1.0 / C
-    imba = sum(abs(sum(e) - avg) for e in result)
-    resultStr = []
-    for i, row in enumerate(result):
-        resultStr.append('%d: %s' % (i, ' '.join(str(e) for e in row)))
-    resultStr.append('IMBALANCE = %.6f' % imba)
-    return '\n'.join(resultStr)
+            v1 = lcs(i - 1, j)
+            v2 = lcs(i, j - 1)
+            v = max(v1, v2)
+        memo[(i, j)] = v
+        return v
+
+    s, t = par
+    N = len(s)
+    M = len(t)
+    if lcs(N - 1, M - 1) == N:
+        return 'Yes'
+    return 'No'
 
 
 class Solver:
@@ -37,14 +38,13 @@ class Solver:
     def getInput(self):
         self.numOfTests = 0
         self.input = []
-        while True:
-            line = self.fIn.readline().strip()
+        for line in self.fIn:
+            line.strip()
             if line == '':
                 break
             self.numOfTests += 1
-            C, S = map(int, line.split())
-            array = map(int, self.fIn.readline().split())
-            self.input.append((C, S, array))
+            row = line.split()
+            self.input.append(tuple(row))
 
     def __init__(self):
         self.fIn = open('input.txt')

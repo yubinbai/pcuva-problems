@@ -1,5 +1,5 @@
 '''
-Created on Jul 17, 2013
+Created on Jul 18, 2013
 @author: Yubin Bai
 '''
 import time
@@ -9,42 +9,37 @@ INF = 1 << 31
 
 
 def solve(par):
-    C, S, array = par
-    if S < 2 * C:
-        array += [0] * (2 * C - S)
-    array.sort()
-    result = []
-    low = 0
-    high = 2 * C - 1
-    while low < high:
-        if array[low] == 0:
-            result.append([array[high]])
-        else:
-            result.append([array[low], array[high]])
-        low += 1
-        high -= 1
-    avg = sum(array) * 1.0 / C
-    imba = sum(abs(sum(e) - avg) for e in result)
-    resultStr = []
-    for i, row in enumerate(result):
-        resultStr.append('%d: %s' % (i, ' '.join(str(e) for e in row)))
-    resultStr.append('IMBALANCE = %.6f' % imba)
-    return '\n'.join(resultStr)
+    N, M, L, agencies = par
+    for i in range(L):
+        agencies[i][1] = int(agencies[i][1])
+        agencies[i][2] = int(agencies[i][2])
+        cost = 0
+        n1 = N
+        while n1 > M:
+            if (n1 >> 1) > M and (n1 - (n1 >> 1)) * agencies[i][1] > agencies[i][2]:
+                cost += agencies[i][2]
+                n1 >>= 1
+            else:
+                cost += agencies[i][1] * (n1 - M)
+                n1 = M
+                break
+        agencies[i] = [cost] + agencies[i]
+    agencies.sort()
+    return '\n'.join(str(e[1]) + ' ' + str(e[0]) for e in agencies) + '\n'
 
 
 class Solver:
 
     def getInput(self):
-        self.numOfTests = 0
+        self.numOfTests = int(self.fIn.readline())
         self.input = []
-        while True:
-            line = self.fIn.readline().strip()
-            if line == '':
-                break
-            self.numOfTests += 1
-            C, S = map(int, line.split())
-            array = map(int, self.fIn.readline().split())
-            self.input.append((C, S, array))
+        for itertest in range(self.numOfTests):
+            N, M, L = map(int, self.fIn.readline().split())
+            agencies = []
+            for i in range(L):
+                agencies.append(
+                    self.fIn.readline().strip().replace(':', ',').split(','))
+            self.input.append((N, M, L, agencies))
 
     def __init__(self):
         self.fIn = open('input.txt')

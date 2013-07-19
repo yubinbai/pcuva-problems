@@ -9,42 +9,45 @@ INF = 1 << 31
 
 
 def solve(par):
-    C, S, array = par
-    if S < 2 * C:
-        array += [0] * (2 * C - S)
-    array.sort()
-    result = []
-    low = 0
-    high = 2 * C - 1
-    while low < high:
-        if array[low] == 0:
-            result.append([array[high]])
-        else:
-            result.append([array[low], array[high]])
-        low += 1
-        high -= 1
-    avg = sum(array) * 1.0 / C
-    imba = sum(abs(sum(e) - avg) for e in result)
-    resultStr = []
-    for i, row in enumerate(result):
-        resultStr.append('%d: %s' % (i, ' '.join(str(e) for e in row)))
-    resultStr.append('IMBALANCE = %.6f' % imba)
-    return '\n'.join(resultStr)
+    M, pairs = par
+    pairs.sort()
+    pairs1 = []
+    for p in pairs:
+        if p[0] >= M or p[1] <= 0:
+            continue
+        pairs1.append(tuple(p))
+    if not pairs1:
+        return 0
+    pairs = [pairs1[0]]
+    left, right = pairs1[0]
+    for p in pairs1:
+        p1 = pairs[-1]
+        if p[0] == p1[0] and p[1] > p[0]:
+            pairs.pop()
+            pairs.append(p)
+        if p[1] > right:
+            pairs.append(p)
+            right = p[1]
+    if right < M:
+        return 0
+    return '\n'.join('%d %d' % (e[0], e[1]) for e in pairs)
 
 
 class Solver:
 
     def getInput(self):
-        self.numOfTests = 0
+        self.numOfTests = int(self.fIn.readline())
         self.input = []
-        while True:
+        for itertest in range(self.numOfTests):
             line = self.fIn.readline().strip()
-            if line == '':
-                break
-            self.numOfTests += 1
-            C, S = map(int, line.split())
-            array = map(int, self.fIn.readline().split())
-            self.input.append((C, S, array))
+            M = int(self.fIn.readline())
+            pairs = []
+            while True:
+                pair = map(int, self.fIn.readline().split())
+                if pair[0] == 0 and pair[1] == 0:
+                    break
+                pairs.append(pair)
+            self.input.append((M, pairs))
 
     def __init__(self):
         self.fIn = open('input.txt')
@@ -71,7 +74,7 @@ class Solver:
 
     def makeOutput(self):
         for test in range(self.numOfTests):
-            self.fOut.write("%s\n" % self.results[test])
+            self.fOut.write("%s\n\n" % self.results[test])
         self.fIn.close()
         self.fOut.close()
 

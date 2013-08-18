@@ -4,27 +4,27 @@ Created on Jul 12, 2013
 '''
 import time
 from multiprocessing.pool import Pool
+from numpypy import *
 parallelSolve = False
 INF = 1 << 31
+MAXN = 1025
 
 
 def solve(par):
     d, N, rats = par
-    grid = []
-    for i in range(1025):
-        grid.append([0] * 1025)
+    grid = zeros((MAXN, MAXN), dtype=int)
 
     for r in rats:
         for x in range(r[0] - d, r[0] + d + 1):
             for y in range(r[1] - d, r[1] + d + 1):
-                if x in range(1025) and y in range(1025):
-                    grid[x][y] += r[2]
+                if x in range(MAXN) and y in range(MAXN):
+                    grid[x, y] += r[2]
 
     maxX, maxY, currMax = -1, -1, -1
-    for x in range(1025):
-        for y in range(1025):
-            if grid[x][y] > currMax:
-                maxX, maxY, currMax = x, y, grid[x][y]
+    for x in range(MAXN):
+        for y in range(MAXN):
+            if grid[x, y] > currMax:
+                maxX, maxY, currMax = x, y, grid[x, y]
 
     return '%d %d %d' % (maxX, maxY, currMax)
 

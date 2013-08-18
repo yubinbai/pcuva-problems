@@ -43,7 +43,6 @@ def solve(par):
             if find(start) != find(end):
                 mst.append(c)
                 union(start, end)
-
         return sum(mst)
 
     n, setT, k, setK, m, setM = par

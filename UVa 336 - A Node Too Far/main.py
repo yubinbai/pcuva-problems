@@ -1,11 +1,8 @@
 '''
 Created on Jul 3, 2013
-
 @author: Yubin Bai
-
 All rights reserved.
 '''
-
 import time
 import collections
 from multiprocessing.pool import Pool
@@ -28,7 +25,6 @@ def solve(par):
                 if dist[v] == INF:
                     dist[v] = dist[curr] + 1
                     q.append(v)
-
     NC, graph, dest = par
     dist = {}
     result = []
@@ -65,7 +61,6 @@ class Solver:
             while row[0] != 0:
                 dest.append([row[0], row[1]])
                 del row[:2]
-
             self.input.append((NC, graph, dest))
 
     def __init__(self):
@@ -96,7 +91,6 @@ class Solver:
             self.fOut.write("%s\n" % self.results[test])
         self.fIn.close()
         self.fOut.close()
-
 if __name__ == '__main__':
     solver = Solver()
     if parallelSolve:

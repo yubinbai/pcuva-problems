@@ -29,7 +29,7 @@ def solve(par):
         if dist[v][0] > dist[u][0] + len(w) and w[0] != dist[u][1]:
             dist[v] = (dist[u][0] + len(w)), w[0]
 
-    # bellman-ford 
+    # bellman-ford
     dist = {}
     for v in vertices:
         dist[v] = INF, ' '

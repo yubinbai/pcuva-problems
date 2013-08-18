@@ -3,6 +3,9 @@
 # C extensions
 *.so
 
+# Java
+*.class
+
 # Packages
 *.egg
 *.egg-info

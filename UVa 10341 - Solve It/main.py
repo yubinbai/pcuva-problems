@@ -3,6 +3,7 @@ Created on Jul 16, 2013
 @author: Yubin Bai
 '''
 import time
+import sys
 from multiprocessing.pool import Pool
 from math import *
 parallelSolve = False
@@ -48,7 +49,7 @@ class Solver:
 
     def __init__(self):
         self.fIn = open('input.txt')
-        self.fOut = open('output.txt', 'w')
+        self.fOut = sys.stdout
         self.results = []
 
     def parallel(self):

@@ -1,0 +1,11 @@
+1
+A: I am divine.
+1
+A: I am lying.
+1
+A: I am evil.
+3
+A: B is human.
+B: A is evil.
+A: B is evil.
+0

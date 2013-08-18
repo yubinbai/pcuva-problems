@@ -1,7 +1,7 @@
 UVA online judge
 ========
 
-Solutions to various UVa (ACM) problems in python.
+Solutions to various UVa (ACM) problems in c++, python, and java.
 
-Did not test on uva online judge however works for all sample inputs
+Python code is not tested on uva online judge however works for all sample inputs
 

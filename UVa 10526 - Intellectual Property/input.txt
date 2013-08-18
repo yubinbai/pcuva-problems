@@ -1,0 +1,20 @@
+6
+BEGIN TDP CODEBASE
+the quick brown fox
+jumps over the lazy dog.
+so there!
+END TDP CODEBASE
+BEGIN JCN CODEBASE
+now is the time for all
+good men to come to the aid
+of the party.
+so there!
+END JCN CODEBASE
+100
+BEGIN TDP CODEBASE
+xyzzy
+END TDP CODEBASE
+BEGIN JCN CODEBASE
+xyzzabczzyy
+END JCN CODEBASE
+0

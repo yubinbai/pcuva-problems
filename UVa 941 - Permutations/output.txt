@@ -1,0 +1,3 @@
+Case #1: bca
+Case #2: edcba
+Case #3: bca

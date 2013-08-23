@@ -12,18 +12,16 @@ queue< int > Q[ 2 ];
 
 int main()
 {
-    freopen("input.txt","r", stdin);
-    freopen("output.txt","w",stdout);
     int test;
     int N, T, M;
     int minute;
     string side;
-    
+
     cin >> test;
     while ( test-- )
     {
         cin >> N >> T >> M;
-        for (int i=0; i<M; i++)
+        for (int i = 0; i < M; i++)
         {
             cin >> minute >> side;
             timeArrive[ i ] = minute;
@@ -39,7 +37,7 @@ int main()
                        min( timeArrive[Q[0].front()], timeArrive[Q[1].front()] );
             actualTime = max( actualTime, next );
             int cnt = 0;
-            while ( !Q[actualSide].empty() && timeArrive[Q[actualSide].front()]<=actualTime && cnt<N )
+            while ( !Q[actualSide].empty() && timeArrive[Q[actualSide].front()] <= actualTime && cnt < N )
             {
                 timeLeave[ Q[actualSide].front() ] = actualTime + T;
                 cnt++;
@@ -48,9 +46,9 @@ int main()
             actualTime += T;
             actualSide = (actualSide + 1) % 2;
         }
-        for (int i=0; i<M; i++) cout << timeLeave[ i ] << endl;
+        for (int i = 0; i < M; i++) cout << timeLeave[ i ] << endl;
         if ( test ) cout << endl;
     }
-    
+
     return 0;
 }

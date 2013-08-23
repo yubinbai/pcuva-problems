@@ -25,6 +25,9 @@ def solve(par):
         return c1 + c2 + c3
 
     def merge(left, mid, right):
+        '''
+        merge left..mid and mid+1..right
+        '''
         counter = 0
         for curr in range(mid + 1, right + 1):
             c1 = bisect.bisect_left(A, A[curr], left, mid + 1)

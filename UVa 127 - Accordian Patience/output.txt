@@ -1,36 +1,36 @@
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
-6 piles remaining 40 8 1 1 1 1
-1 piles remaining 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52
+6 piles remaining: 40 8 1 1 1 1
+1 pile remaining: 52

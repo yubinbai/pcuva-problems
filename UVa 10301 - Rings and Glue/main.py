@@ -1,14 +1,11 @@
 '''
 Created on Jul 7, 2013
-
 @author: Yubin Bai
-
 All rights reserved.
 '''
 
 import time
 from multiprocessing.pool import Pool
-from itertools import combinations
 from math import sqrt
 from collections import Counter
 parallelSolve = False
@@ -43,9 +40,10 @@ def solve(par):
     parent = list(range(N))
     rank = [0] * N
 
-    for c1, c2 in combinations(range(N), 2):
-        if overlap(circles[c1], circles[c2]):
-            union(c1, c2)
+    for c1 in range(N):
+        for c2 in range(c1 + 1, N):
+            if overlap(circles[c1], circles[c2]):
+                union(c1, c2)
 
     counter = Counter(parent)
     return 'The largest component contains {} rings.'.format(max(counter.values()))

@@ -19,18 +19,13 @@ def LDS(array):
     return max(longest)
 
 
-def solve(par):
-    array = par
-    return 'maximum possible interceptions: %d' % LDS(array)
-
-
 if __name__ == '__main__':
     sys.stdin = open('input.txt', 'r')
     array = []
     while True:
         n = int(input())
         if n == -1:
-            print(solve(array))
+            print('maximum possible interceptions: %d' % LDS(array))
             array = []
             n1 = int(input())
             if n1 == -1:

@@ -1,7 +1,7 @@
 '''
 Created on 2013-6-24
 
-@author: Administrator
+@author: Yubin Bai
 '''
 from _collections import deque
 INF = 1 << 32

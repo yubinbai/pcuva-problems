@@ -11,9 +11,9 @@ INF = 1 << 31
 def solve(par):
     N, items = par
     discount = 0
-    for i in range(N - 1, -1, -1):
-        if (i - N + 1) % 3 == 2:
-            discount += items[i]
+    items.sort()
+    for i in range(N - 3, -1, -3):
+        discount += items[i]
     return discount
 
 

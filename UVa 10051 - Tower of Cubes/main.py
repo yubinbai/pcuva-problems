@@ -18,7 +18,7 @@ def solve(par):
         currMax = 1
         currSide, currP = side, index
         for index1 in range(index + 1, N):
-            for i, c in enumerate(cubes[index1]):
+            for i, c in enumerate(cubes[index1]):  # side and color
                 if c == bottomColor:
                     m1 = dp(i, index1) + 1
                     if m1 > currMax:

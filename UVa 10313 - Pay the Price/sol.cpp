@@ -15,7 +15,8 @@ int main()
         for (j = i; j <= 300; j++)
             for (k = 1; k <= 300; k++)
                 res[j][k] += res[j - i][k - 1];
-    for (i = 0; i < 305; i++)sum[0][i] = res[0][i];
+    for (i = 0; i < 305; i++)
+        sum[0][i] = res[0][i];
     for (i = 0; i < 305; i++)
         for (j = 1; j < 305; j++)
             sum[i][j] = res[i][j] + sum[i][j - 1];

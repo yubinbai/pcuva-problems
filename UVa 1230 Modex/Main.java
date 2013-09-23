@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 import java.math.*;
-class Main { /* LA 4104 - MODEX */
+class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int nTC = scan.nextInt();

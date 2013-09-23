@@ -61,7 +61,6 @@ def solve(par):
 
 if __name__ == '__main__':
     sys.stdin = open('input.txt', 'r')
-
     numTests = int(input())
     for i in range(numTests):
         raw_input()

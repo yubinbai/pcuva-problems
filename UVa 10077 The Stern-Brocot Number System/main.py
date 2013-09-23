@@ -4,14 +4,11 @@ Created on Jul 15, 2013
 '''
 import time
 from multiprocessing.pool import Pool
-from bisect import bisect
 parallelSolve = False
 INF = 1 << 31
 
 
 def gcd(a, b):
-    if a < b:
-        a, b = b, a
     while b != 0:
         a, b = b, a % b
     return a

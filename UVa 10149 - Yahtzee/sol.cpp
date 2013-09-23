@@ -1,341 +1,150 @@
-//
-//  UVa 10149 Yahtzee
-//  time: 0.015s
-//  rank: 33
-//  Created by 杨峻 on 13-6-5.
-//  Copyright (c) 2013年 www.51dx.net. All rights reserved.
-//
-
-#include <stdio.h>
+#include <iostream>
+#include <cstdio>
 #include <algorithm>
+#include <cstring>
+#include <string>
+#include <cctype>
+#include <stack>
 #include <queue>
-#include <string.h>
+#include <list>
+#include <vector>
+#include <map>
+#include <sstream>
+#include <cmath>
+#include <bitset>
+#include <utility>
+#include <set>
+#include <numeric>
+#define INT_MAX 2147483647
+#define INT_MIN -2147483648
+#define pi acos(-1.0)
+#define long long LL
 using namespace std;
-
-#define NUMROUND    13
-#define NUMCATEGORY 13
-
-class mycmp
+map< pair<int, int>, vector<int> > CategorizationMemo;
+int digitScore(int Dices[5], int Digit)
 {
-private:
-    int m_category;
-    int (*m_pscore)[NUMROUND + 1];
-public:
-    mycmp(int category, int (*pscore)[NUMROUND + 1])
-        : m_category(category)
-        , m_pscore(pscore)
-    {
-    }
-    bool operator() (int i, int j)
-    {
-        return m_pscore[i][m_category] >= m_pscore[j][m_category];
-    }
-};
-
-struct SN
+    int Total = 0;
+    for (int i = 0; i < 5; i++)
+        if (Dices[i] == Digit) Total += Digit;
+    return Total;
+}
+int chance(int Dices[5])
 {
-    int category[NUMCATEGORY + 1];  //catgory => round
-    int rnd2cat[NUMROUND + 1]; //round => category
-    int score;
-    //int bonus;
-    int s6;
-};
-
-struct TRACK
+    int Total = 0;
+    for (int i = 0; i < 5; i++) Total += Dices[i];
+    return Total;
+}
+int ofAKind(int Dices[5], int n, int DicesCount[7])
 {
-    SN sn;
-    int conf_cat;
-    int round;
-    int diff;
-    int except;
-};
-
-class Yahtzee
+    bool Found = false;
+    for (int i = 1; i < 7; i++) if (DicesCount[i] >= n)
+        {
+            Found = true;
+            break;
+        }
+    if (n == 5 && Found) return 50;
+    if (Found) return chance(Dices);
+    return 0;
+}
+int fullHouse(int DicesCount[7])
 {
-private:
-    int m_dices[NUMROUND + 1][7];
-    int m_sortedrnd[NUMCATEGORY + 1][NUMROUND + 1];
-    SN m_sn[NUMCATEGORY + 1];
-    int m_rndxcat[NUMROUND + 1][NUMCATEGORY + 1];
-
-public:
-    bool input()
-    {
-        memset(this, 0, sizeof(*this));
-        char buff[130];
-        fread(buff, 1, sizeof(buff), stdin);
-        if (feof(stdin))
-        {
-            return false;
-        }
-        char *p = buff;
-        for (int i = 1; i <= NUMROUND; ++i)
-        {
-            for (int j = 1; j <= 5; ++p)
-            {
-                if (*p <= 32)
-                {
-                    continue;
-                }
-                ++m_dices[i][*p - '0'];
-                ++j;
-            }
-        }
-        return true;
-    }
-
-    void output()
-    {
-        for (int i = 1; i <= NUMCATEGORY; ++i)
-        {
-            int round = m_sn[NUMCATEGORY].category[i];
-            //printf("%d ", m_rndxcat[round][i]);
-            printf("%d ", m_rndxcat[round][i]);
-        }
-        int bonus = m_sn[NUMCATEGORY].s6 >= 63 ? 35 : 0;
-        printf("%d %dn", bonus, m_sn[NUMCATEGORY].score);
-    }
-
-    void cal()
-    {
-        initdata();
-        queue<TRACK> q;
-        for (int i = 1; i <= NUMCATEGORY; ++i)
-        {
-            const SN &subsn = m_sn[i - 1];
-            m_sn[i] = subsn;
-            SN &sn = m_sn[i];
-
-            for (int j = 0; int r = m_sortedrnd[i][j]; ++j)
-            {
-                if (!subsn.rnd2cat[r])
-                {
-                    if (i > 6)
-                    {
-                        sn.score += m_rndxcat[r][i];
-                        sn.category[i] = r;
-                        sn.rnd2cat[r] = i;
-                    }
-                    else
-                    {
-                        sn.category[i] = r;
-                        sn.rnd2cat[r] = i;
-                        int oldscore = sn.score;
-                        sn.score += m_rndxcat[r][i];
-                        if (oldscore < 63 && sn.score >= 63)
-                        {
-                            sn.score += 35;
-                        }
-                        sn.s6 = sn.score;
-                    }
-                    break;
-                }
-                TRACK item = { subsn, subsn.rnd2cat[r], r, m_rndxcat[r][i], 1 << r };
-                item.sn.rnd2cat[r] = i;
-                item.sn.category[i] = r;
-                if (i <= 6)
-                {
-                    int olds6 = item.sn.s6;
-                    item.sn.s6 += m_rndxcat[r][i];
-                    if (olds6 < 63 && item.sn.s6 >= 63)
-                    {
-                        item.sn.s6 += 35;
-                        item.diff += 35;
-                    }
-                }
-                q.push(item);
-            }
-
-            while (!q.empty())
-            {
-                int minvalue = sn.score - subsn.score;
-                TRACK &item = q.front();
-                SN &tracksn = item.sn;
-                int round = item.round;
-                int conf_cat = item.conf_cat;
-                for (int j = 0; int r = m_sortedrnd[conf_cat][j]; ++j)
-                {
-                    if (1 << r & item.except)
-                    {
-                        continue;
-                    }
-                    int diff = m_rndxcat[r][conf_cat] - m_rndxcat[round][conf_cat];
-                    int s6 = tracksn.s6;
-                    if (conf_cat <= 6)
-                    {
-                        s6 += diff;
-                        if (tracksn.s6 >= 63 && s6 < 98)
-                        {
-                            s6 -= 35;
-                            diff -= 35;
-                        }
-                    }
-
-                    diff += item.diff;
-                    if (diff <= minvalue)
-                    {
-                        break;
-                    }
-                    if (!(tracksn.rnd2cat[r]))
-                    {
-                        tracksn.score += diff;
-                        if (tracksn.score > sn.score)
-                        {
-                            sn = tracksn;
-                            sn.s6 = s6;
-                            sn.category[conf_cat] = r;
-                            sn.rnd2cat[r] = conf_cat;
-                        }
-                        break;
-                    }
-                    q.push(item);
-                    TRACK &tmp = q.back();
-                    tmp.conf_cat = tracksn.rnd2cat[r];
-                    tmp.sn.category[conf_cat] = r;
-                    tmp.sn.rnd2cat[r] = conf_cat;
-                    tmp.sn.s6 = s6;
-                    tmp.round = r;
-                    tmp.except |= 1 << r;
-                    tmp.diff = diff;
-                }
-                q.pop();
-            }
-        }
-    }
-
-    void initdata()
-    {
-        for (int i = 1; i <= NUMCATEGORY; ++i)
-        {
-            for (int j = 1; j <= NUMROUND; ++j)
-            {
-                m_rndxcat[j][i] = _getscore(j, i);
-            }
-        }
-
-        for (int i = 1; i <= NUMCATEGORY; ++i)
-        {
-            for (int j = 0; j <= NUMROUND; ++j)
-            {
-                m_sortedrnd[i][j] = j;
-            }
-            mycmp cmp(i, &m_rndxcat[0]);
-            sort(&m_sortedrnd[i][0], m_sortedrnd[i] + NUMROUND + 1, cmp);
-        }
-    }
-
-    int sumdice(int dice[])
-    {
-        int sum = 0;
-        for (int i = 1; i <= 6; ++i)
-        {
-            sum += dice[i] * i;
-        }
-        return sum;
-    }
-
-    int _getscore(int round, int category)
-    {
-        if (category >= 1 && category <= 6)  //前六项计分项
-        {
-            return m_dices[round][category] * category;
-        }
-        if (category == 7)   //机会
-        {
-            return sumdice(m_dices[round]);
-        }
-        if (category == 8)   //三同
-        {
-            for (int i = 1; i <= 6; ++i)
-            {
-                if (m_dices[round][i] >= 3)
-                {
-                    return sumdice(m_dices[round]);
-                }
-            }
-            return 0;
-        }
-        if (category == 9)   //四同
-        {
-            for (int i = 1; i <= 6; ++i)
-            {
-                if (m_dices[round][i] >= 4 )
-                {
-                    return sumdice(m_dices[round]);
-                }
-            }
-            return 0;
-        }
-        if (category == 10)   //五同
-        {
-            for (int i = 1; i <= 6; ++i)
-            {
-                if (m_dices[round][i] >= 5)
-                {
-                    return 50;
-                }
-            }
-            return 0;
-        }
-        if (category == 11)   //小顺
-        {
-            for (int i = 1; i <= 3; ++i)
-            {
-                if (m_dices[round][i]
-                        && m_dices[round][i + 1]
-                        && m_dices[round][i + 2]
-                        && m_dices[round][i + 3])
-                {
-                    return 25;
-                }
-            }
-            return 0;
-        }
-        if (category == 12)   //大顺
-        {
-            for (int i = 1; i <= 2; ++i)
-            {
-                if (m_dices[round][i]
-                        && m_dices[round][i + 1]
-                        && m_dices[round][i + 2]
-                        && m_dices[round][i + 3]
-                        && m_dices[round][i + 4])
-                {
-                    return 35;
-                }
-            }
-            return 0;
-        }
-        if (category == 13)   //葫芦
-        {
-            bool bthree = false;
-            bool btwo = false;
-            for (int i = 1; i <= 6; ++i)
-            {
-                if (m_dices[round][i] == 3)
-                {
-                    bthree  = true;
-                }
-                if (m_dices[round][i] == 2)
-                {
-                    btwo    = true;
-                }
-            }
-            if (bthree && btwo)
-            {
-                return 40;
-            }
-        }
-        return 0;
-    }
-};
-int main(int argc, const char *argv[])
+    bool TwoEqual = false, ThreeEqual = false, FiveEqual = false;
+    for (int i = 1; i < 7; i++)
+        if (DicesCount[i] == 2) TwoEqual = true;
+        else if (DicesCount[i] == 3) ThreeEqual = true;
+        else if (DicesCount[i] == 5) FiveEqual = true;
+    if ((TwoEqual && ThreeEqual) || FiveEqual) return 40;
+    else return 0;
+}
+vector<int> BestCategorization(int RoundsLeft, int Category, int Scores[13][13])
 {
-    Yahtzee y;
-    while (y.input())
+    pair<int, int> key;
+    vector<int>  HighestScore, TestScore;
+    key.first = RoundsLeft;
+    key.second = Category;
+    map< pair<int, int>, vector<int> >::iterator
+    it = CategorizationMemo.find(key);
+    if (it != CategorizationMemo.end())
+        return it->second;
+    HighestScore.resize(15);
+    TestScore.resize(15);
+    HighestScore[14] = -1;
+    if (Category == 0)
     {
-        y.cal();
-        y.output();
+        HighestScore[0] = Scores[(int)(log((double)RoundsLeft) / log(2.0))][0];
+        HighestScore[14] = HighestScore[0];
+        return HighestScore;
+    }
+    for (int i = 0; i < 13; i++)
+    {
+        if (RoundsLeft  & (int)pow(2.0, i))
+            RoundsLeft ^= (int)pow(2.0, i);
+        else continue;
+        TestScore = BestCategorization(RoundsLeft, Category - 1, Scores);
+        TestScore[14] += Scores[i][Category];
+        TestScore[Category] = Scores[i][Category];
+        if (Category == 5)
+        {
+            TestScore[13] = (TestScore[14] >= 63) ? 35 : 0;
+            TestScore[14] += TestScore[13];
+        }
+        if (TestScore[14] > HighestScore[14] ) HighestScore = TestScore;
+        RoundsLeft ^= (int)pow(2.0, i);
+    }
+    CategorizationMemo[key] = HighestScore;
+    return HighestScore;
+}
+int straight(int DicesCount[7], int n)
+{
+    int LongestSequence = 0, CurrentSequence = 0;
+    for (int i = 1; i < 7; i++)
+        if (DicesCount[i] && DicesCount[i + 1])
+            CurrentSequence++;
+        else LongestSequence = max(CurrentSequence + 1, LongestSequence), CurrentSequence = 0;
+    if (LongestSequence == n && n == 5) return 35;
+    if (LongestSequence >= n && n == 4) return 25;
+    return 0;
+}
+int main ()
+{
+    int Dices[13][5];
+    int Scores[13][13];
+    int counter = 0;
+    while (1)
+    {
+        counter++;
+        for (int i = 0; i < 13; i++)
+            for (int j = 0; j < 13; j++)
+                Scores[i][i] = -1;
+        int DicesCount[13][7] = {0};
+        int Score[14];
+        for (int i = 0; i < 13; i++)
+        {
+            for (int j = 0; j < 5; j++)
+                if (scanf("%d", &Dices[i][j]) != 1)return 0;
+                else DicesCount[i][Dices[i][j]]++;
+            Scores[i][0] = digitScore(Dices[i], 1);
+            Scores[i][1] = digitScore(Dices[i], 2);
+            Scores[i][2] = digitScore(Dices[i], 3);
+            Scores[i][3] = digitScore(Dices[i], 4);
+            Scores[i][4] = digitScore(Dices[i], 5);
+            Scores[i][5] = digitScore(Dices[i], 6);
+            Scores[i][6] = chance(Dices[i]);
+            Scores[i][7] = ofAKind(Dices[i], 3, DicesCount[i]);
+            Scores[i][8] = ofAKind(Dices[i], 4, DicesCount[i]);
+            Scores[i][9] = ofAKind(Dices[i], 5, DicesCount[i]);
+            Scores[i][10] = straight(DicesCount[i], 4);
+            Scores[i][11] = straight(DicesCount[i], 5);
+            Scores[i][12] = fullHouse(DicesCount[i]);
+        }
+        vector<int> output = BestCategorization(pow(2.0, 13) - 1, 12 , Scores);
+        for (int i = 0; i < 15; i++)
+        {
+            printf("%d", output[i]);
+            if (i != 14) printf(" ");
+        }
+        printf("\n");
+        CategorizationMemo.clear();
     }
     return 0;
 }

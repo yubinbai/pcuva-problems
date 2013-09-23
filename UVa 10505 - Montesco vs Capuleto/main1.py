@@ -27,6 +27,8 @@ from collections import Counter
 from itertools import combinations
 parallelSolve = False
 INF = 1 << 31
+WHITE = 1
+BLACK = 0
 
 
 def solve(par):
@@ -40,10 +42,10 @@ def solve(par):
         for i in enemies[e]:
             if color[i] != None:
                 continue
-            if c == 'White':
-                dfs(i, 'Black')
+            if c == WHITE:
+                dfs(i, BLACK)
             else:
-                dfs(i, 'White')
+                dfs(i, WHITE)
 
     N, enemies = par
     color = [None] * N
@@ -54,7 +56,7 @@ def solve(par):
 
     for i in range(N):
         if color[i] == None:
-            dfs(i, 'White')
+            dfs(i, WHITE)
 
     counter = Counter(color)
     if graphError[0]:

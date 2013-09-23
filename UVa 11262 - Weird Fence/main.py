@@ -4,7 +4,7 @@ Created on Jul 17, 2013
 '''
 import time
 from multiprocessing.pool import Pool
-from math import sqrt, ceil
+from math import sqrt, ceil, hypot
 from collections import deque
 from EdmondsKarp import edmondsKarp
 parallelSolve = False
@@ -13,7 +13,7 @@ INF = 1 << 31
 
 def solve(par):
     def dist(p1, p2):
-        return sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+        return hypot(p1[0] - p2[0], p1[1] - p2[1])
 
     def valid(length):
         size = len(red) + len(blue) + 2

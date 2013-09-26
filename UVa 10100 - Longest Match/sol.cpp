@@ -1,70 +1,65 @@
 #include <iostream>
 #include <sstream>
-#include <iomanip>
-#include <vector>
+#include <cstdio>
+#include <cstring>
 #include <string>
-
+const int maxn = 1010;
 using namespace std;
-
+string s1[maxn], s2[maxn];
+char a[maxn], b[maxn], temp[31];
+int dp[maxn][maxn];
+int alength, blength, count1 = 0;
+inline int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+void solve()
+{
+    memset(dp, 0, sizeof(dp));
+    for (int i = 1; i <= alength; i++)
+    {
+        for (int j = 1; j <= blength; j++)
+        {
+            if (s1[i] == s2[j]) dp[i][j] = dp[i - 1][j - 1] + 1;
+            else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+        }
+    }
+    printf("%2d. Length of longest match: %d\n", ++count1, dp[alength][blength]);
+}
+void StepOne(char *s)
+{
+    for (int i = 1; i <= strlen(s + 1); i++)
+    {
+        if ( (s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'));
+        else if ( (s[i] >= '0' && s[i] <= '9') );
+        else s[i] = ' ';
+    }
+}
 int main()
 {
-    string s1, s2, s;
-    vector<string> v1;
-    vector<string> v2;
-    int caso = 1, ans, m, n;
-    int lcs[501][501];
-    bool equal[500][500];
-
-    while (getline(cin, s1))
+    while (gets(a + 1) != NULL)
     {
-        getline(cin, s2);
-
-        cout << setw(2) << setiosflags(ios::right) << caso << ". ";
-        caso++;
-
-        for (int i = 0; i < s1.size(); i++) if (!isupper(s1[i]) && !islower(s1[i]) && !isdigit(s1[i])) s1[i] = ' ';
-        for (int i = 0; i < s2.size(); i++) if (!isupper(s2[i]) && !islower(s2[i]) && !isdigit(s2[i])) s2[i] = ' ';
-
-        v1.clear();
-        v2.clear();
-
-        istringstream is1(s1);
-        istringstream is2(s2);
-
-        while (is1 >> s) v1.push_back(s);
-        while (is2 >> s) v2.push_back(s);
-
-        m = v1.size();
-        n = v2.size();
-
-        if (m == 0 || n == 0)
+        gets(b + 1);
+        if ((a[1] == 0) || (b[1] == 0))
         {
-            cout << "Blank!" << endl;
+            printf("%2d. Blank!\n", ++count1);
             continue;
         }
-
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
-                if (v1[i] == v2[j]) equal[i][j] = true;
-                else equal[i][j] = false;
-
-        for (int i = m; i >= 0; i--)
+        StepOne(a);
+        StepOne(b);
+        stringstream ss(a + 1);
+        alength = 0;
+        while (ss >> temp)
         {
-            for (int j = n; j >= 0; j--)
-            {
-                if (i == m || j == n)
-                {
-                    lcs[i][j] = 0;
-                    continue;
-                }
-
-                if (equal[i][j]) lcs[i][j] = 1 + lcs[i + 1][j + 1];
-                else lcs[i][j] = max(lcs[i][j + 1], lcs[i + 1][j]);
-            }
+            s1[++alength] = temp;
         }
-
-        cout << "Length of longest match: " << lcs[0][0] << endl;
+        stringstream st(b + 1);
+        blength = 0;
+        while (st >> temp)
+        {
+            s2[++blength] = temp;
+        }
+        solve();
     }
-
     return 0;
 }

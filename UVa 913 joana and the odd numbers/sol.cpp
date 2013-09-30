@@ -25,7 +25,7 @@ int main()
     {
         long long k = (N + 1) / 2 ;
         k *= 2 * k;
-        cout << 3 * ( k - 3) << endl;
+        cout << 3 * (k - 3) << endl;
     }
     return 0;
 }

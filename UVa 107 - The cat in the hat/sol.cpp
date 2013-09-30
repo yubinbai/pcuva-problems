@@ -13,9 +13,7 @@ int main()
             break;
         int n;
         if (w == 1)
-        {
             n = 1;
-        }
         else
         {
             n = 2;
@@ -34,7 +32,8 @@ int main()
         {
             not_working = log2(h);
         }
-        int height = -(pow(static_cast<double>(n), k + 1) * (h / pow(static_cast<double>(n + 1), k)) - h * (n + 1));
+        int height = -(pow(static_cast<double>(n), k + 1) *
+                       (h / pow(static_cast<double>(n + 1), k)) - h * (n + 1));
         cout << not_working << " " << height << endl;
     }
 }

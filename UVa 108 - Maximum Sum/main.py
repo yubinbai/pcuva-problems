@@ -41,7 +41,18 @@ def solve(par):
 if __name__ == '__main__':
     sys.stdin = open('input.txt', 'r')
     N = int(input())
-    mat = []
-    for i in range(N):
-        mat.append(map(int, raw_input().split()))
+    buff = []
+    while True:
+        try:
+            buff += map(int, raw_input().split())
+        except:
+            break
+    i = j = 0
+    mat = [[None] * N for _ in range(N)]
+    for x in buff:
+        mat[i][j] = x
+        j += 1
+        if j == N:
+            j = 0
+            i += 1
     print(solve((N, mat)))

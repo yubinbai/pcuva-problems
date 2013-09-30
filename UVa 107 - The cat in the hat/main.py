@@ -20,8 +20,6 @@ while True:
             break
         if abs(a - intA) < EPSILON and abs(b - intB) < EPSILON\
                 and intA == intB + 1:
-            # print intA, intB
             r1, r2 = (1 - b ** i) / (1 - b), \
                 A * (1 - (b / a) ** i) / (1 - (b / a)) + B
             print int(r1), int(r2)
-            # break

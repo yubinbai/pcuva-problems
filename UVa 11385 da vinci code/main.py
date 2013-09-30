@@ -18,4 +18,4 @@ for itertest in range(numTest):
     for i, c in enumerate(line):
         idx = bisect.bisect_left(fibs, seq[i])
         result[idx] = c
-    print ''.join(result)
+    print ''.join(result).strip(' ')

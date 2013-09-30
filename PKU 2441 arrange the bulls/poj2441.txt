@@ -1,0 +1,27 @@
+Arrange the Bulls
+Time Limit: 4000MS		Memory Limit: 65536K
+Total Submissions: 3089		Accepted: 1149
+Description
+
+Farmer Johnson's Bulls love playing basketball very much. But none of them would like to play basketball with the other bulls because they believe that the others are all very weak. Farmer Johnson has N cows (we number the cows from 1 to N) and M barns (we number the barns from 1 to M), which is his bulls' basketball fields. However, his bulls are all very captious, they only like to play in some specific barns, and don¡¯t want to share a barn with the others. 
+
+So it is difficult for Farmer Johnson to arrange his bulls, he wants you to help him. Of course, find one solution is easy, but your task is to find how many solutions there are. 
+
+You should know that a solution is a situation that every bull can play basketball in a barn he likes and no two bulls share a barn. 
+
+To make the problem a little easy, it is assumed that the number of solutions will not exceed 10000000.
+Input
+
+In the first line of input contains two integers N and M (1 <= N <= 20, 1 <= M <= 20). Then come N lines. The i-th line first contains an integer P (1 <= P <= M) referring to the number of barns cow i likes to play in. Then follow P integers, which give the number of there P barns.
+Output
+
+Print a single integer in a line, which is the number of solutions.
+Sample Input
+
+3 4
+2 1 4
+2 1 3
+2 2 4
+Sample Output
+
+4

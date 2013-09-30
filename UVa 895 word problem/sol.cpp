@@ -6,7 +6,7 @@ int main()
     int n, m, ans;
     char W[1001][11], c;
     int cont1[26], cont2[1000][26];
-    bool ok;
+    bool wordOK;
     n = 0;
     while (1)
     {
@@ -38,9 +38,11 @@ int main()
         ans = 0;
         for (int i = 0; i < n; i++)
         {
-            ok = true;
-            for (int j = 0; j < 26; j++) ok &= (cont2[i][j] <= cont1[j]);
-            if (ok) ans++;
+            wordOK = true;
+            for (int j = 0; j < 26; j++)
+                wordOK &= (cont2[i][j] <= cont1[j]);
+            if (wordOK)
+                ans++;
         }
         printf("%d\n", ans);
     }

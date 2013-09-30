@@ -12,12 +12,12 @@
 #include <list>
 #include <cmath>
 using namespace std;
-typedef pair<int, int>   ii;
-typedef vector<int>     vi;
-typedef vector<ii>      vii;
-typedef vector<vi>     vvi;
-typedef vector<vii>    vvii;
-typedef map<int, int>    mii;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<ii> vii;
+typedef vector<vi> vvi;
+typedef vector<vii> vvii;
+typedef map<int, int> mii;
 int main()
 {
     long long n;
@@ -25,7 +25,7 @@ int main()
     {
         n *= 2;
         long long p = sqrt(n);
-        if ( p * (p + 1) < n )    p++;
+        if ( p * (p + 1) < n ) p++;
         n /= 2;
         long long d = n - p * (p - 1) / 2;
         printf("%lld/%lld\n", (p + 1 - d), d);

@@ -1,34 +1,22 @@
-#include<iostream>
-#include<cstdio>
-#include<cmath>
-#include<algorithm>
-using namespace std;
-int main()
+#include <cstdio>
+const char *z[4] = {"shata", "hajar", "lakh", "kuti"};
+int div[4] = {10, 100, 100, 100};
+void bangla(long long n, int pos)
 {
-    long long val, test = 1;
-    while (scanf("%ld", &val) != EOF)
+    if (!n) return;
+    bangla(n / div[pos], (pos + 1) % 4);
+    int ndivpos = n % div[pos];
+    if (ndivpos) printf(" %lld %s", n % div[pos], z[pos]);
+    else if (pos == 3) printf(" kuti");
+}
+int main(void)
+{
+    int cnum = 0;
+    for (long long n; scanf("%lld", &n) == 1; puts(""))
     {
-        string master[] = {" kuti", " lakh", " hajar", " shata", " kuti", " lakh", " hajar", " shata", ""};
-        long long n = val;
-        long long num[9] = {0};
-        num[8] = n % 100; n /= 100;
-        num[7] = n % 10;  n /= 10;
-        num[6] = n % 100; n /= 100;
-        num[5] = n % 100; n /= 100;
-        num[4] = n % 100; n /= 100;
-        num[3] = n % 10;  n /= 10;
-        num[2] = n % 100; n /= 100;
-        num[1] = n % 100; n /= 100;
-        num[0] = n % 100; n /= 100;
-        int i = 0;
-        while (num[i] == 0) i++;
-        printf("%4d.", test++);
-        for (i = 0; i < 9; i++)
-        {
-            if (num[i] != 0)
-                cout << " " << num[i] << master[i];
-        }
-        printf("\n");
+        printf("%4d.", ++cnum);
+        bangla(n / 100, 0);
+        if (!(n / 100) || n % 100) printf(" %lld", n % 100);
     }
     return 0;
 }

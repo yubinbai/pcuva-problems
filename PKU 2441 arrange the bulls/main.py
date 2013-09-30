@@ -2,12 +2,12 @@
 Created Jul 26, 2013
 '''
 import sys
-from numpypy import *
+import numpypy as np
 
 
 def solve(par):
     N, M, likes = par
-    dp = empty((N, 1 << M), dtype=int)
+    dp = np.empty((N, 1 << M), dtype=np.int)
     dp.fill(-1)
 
     def _solve(step, status):

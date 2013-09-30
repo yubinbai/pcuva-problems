@@ -31,7 +31,6 @@ def solve(par):
     return '%s\n%d' % (' '.join(path), currMin)
 
 if __name__ == '__main__':
-
     sys.stdin = open('input.txt', 'r')
     while True:
         try:

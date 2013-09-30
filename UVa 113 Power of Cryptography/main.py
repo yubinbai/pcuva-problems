@@ -7,7 +7,7 @@ while True:
         p = int(input())
     except:
         break
-    low, high = 1, (1 << 30)
+    low, high = 1, 1 << 30
     while low <= high:
         mid = (low + high) >> 1
         v = pow(mid, n)
@@ -18,4 +18,3 @@ while True:
         else:
             break
     print mid
-

@@ -6,18 +6,18 @@ import sys
 INF = 1 << 31
 
 
-def aContainsB(a, b):
-    for i in range(D):
-        if a[i] < b[i]:
-            return False
-    return True
-
-
 def solve(par):
+
+    def aContainsB(a, b):
+        for i in range(D):
+            if a[i] < b[i]:
+                return False
+        return True
+
     N, D, array = par
     for i, row in enumerate(array):
         row.sort()
-        row.append(i + 1)
+        row.append(i + 1)  # leave index
     array.sort()
     # longest increasing subsequence
     longest = [0] * N
@@ -32,14 +32,15 @@ def solve(par):
                 currMax = longest[j] + 1
         prev[i] = idx
         longest[i] = currMax
-    # restore the solution
+
+    # find the solution path
     idx, currMax = 0, 1
     for i, l in enumerate(longest):
         if l > currMax:
             idx, currMax = i, l
     path = []
     while True:
-        path.append(array[idx][-1])
+        path.append(array[idx][-1])  # retrieve index
         if prev[idx] == idx:
             break
         idx = prev[idx]

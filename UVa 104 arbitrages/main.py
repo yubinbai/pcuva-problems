@@ -2,6 +2,7 @@ import sys
 import numpypy as np
 
 sys.stdin = open('input.txt')
+itertest = 0
 while True:
     try:
         N = int(input())
@@ -30,8 +31,8 @@ while True:
                     return value
                 path.pop()
         return 0
-
-    print 'case'
+    itertest += 1
+    print 'Case: %d' % itertest
     flag = False
     maxProfit, resultPath = 0, None
     for depth in range(1, N + 1):

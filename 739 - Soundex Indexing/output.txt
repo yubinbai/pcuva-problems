@@ -1,6 +1,0 @@
-Case #1: L000
-Case #2: K500
-Case #3: E140
-Case #4: E142
-Case #5: S160
-Case #6: S200

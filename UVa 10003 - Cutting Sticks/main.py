@@ -8,8 +8,7 @@ INF = 1 << 31
 
 def solve(par):
     N, C, array = par
-    array.extend([0, N])
-    array.sort()
+    array = [0] + array + [N]
     memo = {}
 
     def _memo(left, right):

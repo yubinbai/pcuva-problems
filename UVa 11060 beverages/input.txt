@@ -1,0 +1,45 @@
+3
+vodka
+wine
+beer
+2
+wine vodka
+beer wine
+
+5
+wine
+beer
+rum
+apple-juice
+cachaca
+6
+beer cachaca
+apple-juice beer
+apple-juice rum
+beer rum
+beer wine
+wine cachaca
+
+10
+cachaca
+rum
+apple-juice
+tequila
+whiskey
+wine
+vodka
+beer
+martini
+gin
+11
+beer whiskey
+apple-juice gin
+rum cachaca
+vodka tequila
+apple-juice martini
+rum gin
+wine whiskey
+apple-juice beer
+beer rum
+wine vodka
+beer tequila

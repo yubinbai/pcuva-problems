@@ -1,8 +1,6 @@
 '''
 Created on Jul 3, 2013
-
 @author: Yubin Bai
-
 All rights reserved.
 '''
 
@@ -18,7 +16,7 @@ def solve(par):
     projects = par
     purge = set()
     N = len(projects)
-    for p1,p2 in combinations(projects, 2):
+    for p1, p2 in combinations(projects, 2):
         if p1 != p2:
             intersection = projects[p1] & projects[p2]
             projects[p1] -= intersection
@@ -31,8 +29,7 @@ def solve(par):
 
     s = []
     for row in results:
-        if row[0] != 0:
-            s.append('%s %d' % (row[1], -1 * row[0]))
+        s.append('%s %d' % (row[1], -1 * row[0]))
     return '\n'.join(s)
 
 
@@ -42,7 +39,7 @@ class Solver:
         self.numOfTests = 0
         self.input = []
         currProject = ''
-        projects = defaultdict(set)
+        projects = {}
         while True:
             line = self.fIn.readline().strip()
             if line[0] == '1':
@@ -54,6 +51,7 @@ class Solver:
                 break
             if ord(line[0]) in range(ord('A'), ord('Z') + 1):
                 currProject = line
+                projects[currProject] = set()
             if ord(line[0]) in range(ord('a'), ord('z') + 1):
                 projects[currProject].add(line)
 

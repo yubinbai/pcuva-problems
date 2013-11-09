@@ -17,23 +17,22 @@ while True:
         graph[row[0], row[1]] = 1
         graph[row[1], row[0]] = 1
 
-    q = deque()
-    q.append(0)
+    q = deque([0])
     color[0] = 0
     flag = True
     while q:
-        if not flag:
-            break
         v1 = q.popleft()
         for v2 in range(N):
             if not graph[v1, v2]:
                 continue
             if color[v2] == -1:
-                color[v2] = (color[v1] + 1) % 2
+                color[v2] = color[v1] ^ 1
                 q.append(v2)
             elif color[v1] == color[v2]:
                 flag = False
                 break
+        if not flag:
+            break
 
     if flag:
         print('BICOLORABLE.')
